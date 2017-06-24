@@ -3,48 +3,43 @@ Imports DotNetBrowser.Events
 Imports DotNetBrowser.WinForms
 
 Public Class Form1
-    Private browserView As WinFormsBrowserView
 
     Public Sub New()
-
         InitializeComponent()
+        Me.browser.Browser.LoadURL("http://localhost:8080/escape/puzzles/scrambled_numeric_words/index.html?a=234")
+    End Sub
 
-        browserView = New WinFormsBrowserView()
-        Controls.Add(browserView)
 
-        browserView.Browser.LoadURL("http://google.com")
-        AddHandler browserView.KeyDown, AddressOf OnBrowserKeyDown
-        AddHandler browserView.KeyPress, AddressOf OnBrowserKeyPress
-        AddHandler browserView.KeyUp, AddressOf OnBrowserKeyUp
+
+    Private Sub btnSubmitGuess_Click(sender As Object, e As EventArgs) Handles btnSubmitGuess.Click
+        Dim guessResponse As JSValue
+        Dim result As String
+        Dim answer As String
+        'guessResponse = Me.browser.Browser.ExecuteJavaScriptAndReturnValue("testGuess('" &
+        'Me.txtInput.Text &
+        '                                                          "');")
+
+        guessResponse = Me.browser.Browser.ExecuteJavaScriptAndReturnValue("testGuess")
+        result = guessResponse.AsFunction().InvokeAndReturnValue(Nothing, Me.txtInput.Text).ToString()
+        answer = Me.browser.Browser.ExecuteJavaScriptAndReturnValue("answer").ToString()
+
+
+        MsgBox(result.ToString())
+
+        If result = "1" Then
+            MsgBox("Good job")
+        Else
+            MsgBox("Nope! " & answer)
+        End If
+
 
     End Sub
 
-    Public Sub OnBrowserKeyDown(sender As Object, e As KeyEventArgs)
-        Debug.WriteLine("Key down event captured: key code = " + e.KeyCode.ToString())
-        If (e.Alt) Then
-            Debug.WriteLine("Alt down event captured")
-        End If
-
-        If (e.KeyCode = Keys.P) Then
-            Debug.WriteLine("P down event captured")
-        End If
-
-        If (e.Alt And e.KeyCode = Keys.P) Then
-            Debug.WriteLine("Alt+P captured")
-        End If
-
+    Private Sub btnCloseForm_Click(sender As Object, e As EventArgs) Handles btnCloseForm.Click
+        Me.Close()
     End Sub
 
-    Public Sub OnBrowserKeyUp(sender As Object, e As KeyEventArgs)
-        Debug.WriteLine("Key up event captured")
-        If (e.Alt And e.KeyCode = Keys.P) Then
-            Debug.WriteLine("Alt+P captured")
-        End If
-
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.WindowState = FormWindowState.Maximized
     End Sub
-
-    Public Sub OnBrowserKeyPress(sender As Object, e As KeyPressEventArgs)
-        Debug.WriteLine("Key press event captured")
-    End Sub
-
 End Class
