@@ -8,7 +8,7 @@ Public Class Game
 
     Public Sub New()
         InitializeComponent()
-        Me.browser.Browser.LoadURL("http://localhost:8080/escape/puzzles/scrambled_numeric_words/index.html?a=234")
+        Me.browser.Browser.LoadURL("http://localhost:8080/escape/puzzles/prod/lottery/")
         timeLeft = 5 * 60 * 100
         tmrGame.Start()
     End Sub
@@ -25,11 +25,9 @@ Public Class Game
             result = guessResponse.AsFunction().InvokeAndReturnValue(Nothing, Me.txtInput.Text).ToString()
             answer = Me.browser.Browser.ExecuteJavaScriptAndReturnValue("answer").ToString()
 
-
-            MsgBox(result.ToString())
-
             If result = "1" Then
                 MsgBox("Good job")
+                Me.browser.Browser.LoadURL("http://localhost:8080/escape/puzzles/prod/scrambled_numeric_words/")
             Else
                 MsgBox("Nope! " & answer)
             End If
@@ -68,9 +66,9 @@ Public Class Game
 
     Private Sub form_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         'may need some extra checking on nothing....
-        If e.KeyCode = Keys.Return Then
-            e.SuppressKeyPress = True
-            SendKeys.Send("{Tab}")
-        End If
+        'If e.KeyCode = Keys.Return Then
+        '    e.SuppressKeyPress = True
+        '    SendKeys.Send("{Tab}")
+        'End If
     End Sub
 End Class

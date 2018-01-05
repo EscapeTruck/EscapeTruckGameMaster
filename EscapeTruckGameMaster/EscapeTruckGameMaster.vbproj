@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2208B127-B118-4EE8-ADEF-8DCFA73753E5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>EscapeTruckGameMaster.My.MyApplication</StartupObject>
-    <RootNamespace>EscapeTruckGameMaster</RootNamespace>
+    <StartupObject>com.escapetruck.My.MyApplication</StartupObject>
+    <RootNamespace>com.escapetruck</RootNamespace>
     <AssemblyName>EscapeTruckGameMaster</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
@@ -86,17 +86,17 @@
       <DependentUpon>Game.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Truck.Designer.vb">
-      <DependentUpon>Truck.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Truck.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
+    <Compile Include="My Project\Application1.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="EscapeTruckGameMaster.Designer.vb">
+      <DependentUpon>EscapeTruckGameMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EscapeTruckGameMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -112,8 +112,8 @@
     <EmbeddedResource Include="Game.resx">
       <DependentUpon>Game.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Truck.resx">
-      <DependentUpon>Truck.vb</DependentUpon>
+    <EmbeddedResource Include="EscapeTruckGameMaster.resx">
+      <DependentUpon>EscapeTruckGameMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -136,6 +136,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="teamdev-eval.licenses" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EscapeTruck.accdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="teamdev.licenses" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
