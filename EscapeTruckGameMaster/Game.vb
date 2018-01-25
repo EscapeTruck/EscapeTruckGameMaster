@@ -1,16 +1,22 @@
 ﻿Imports DotNetBrowser
 Imports DotNetBrowser.Events
 Imports DotNetBrowser.WinForms
+Imports System.IO.Ports
 
 Public Class Game
 
     Private timeLeft As Integer
+    Private serialPort As System.IO.Ports.SerialPort
+
 
     Public Sub New()
         InitializeComponent()
         Me.browser.Browser.LoadURL("http://localhost:8080/escape/puzzles/prod/lottery/")
         timeLeft = 5 * 60 * 100
         tmrGame.Start()
+
+        serialPort = New IO.Ports.SerialPort("COM1", 9600, IO.Ports.Parity.None, 8)
+
     End Sub
 
 
@@ -70,5 +76,14 @@ Public Class Game
         '    e.SuppressKeyPress = True
         '    SendKeys.Send("{Tab}")
         'End If
+    End Sub
+
+    Private Shared Sub DataReceivedHandler(
+                        sender As Object,
+                        e As SerialDataReceivedEventArgs)
+        Dim sp As SerialPort = CType(sender, SerialPort)
+        Dim indata As String = sp.ReadExisting()
+        Console.WriteLine("Data Received:")
+        Console.Write(indata)
     End Sub
 End Class
