@@ -61,7 +61,21 @@ Public Class EscapeTruckGameMaster
         End If
 
         ' Add Device and IP to list
-        _Devices(device) = ip
+        If Not _Devices.ContainsKey(ip) Then
+            _Devices(device) = ip
+            DeviceGrid.DataSource = _Devices
+
+            DeviceGrid.AutoGenerateColumns = True '<---pay attention here
+
+            DeviceGrid.DataSource = (From kvp As KeyValuePair(Of String, String) In _Devices Select kvp.Key, kvp.Value).ToList
+
+
+            'DeviceGrid.Refresh()
+        ElseIf _Devices(device) <> ip Then
+            _Devices(device) = ip
+            DeviceGrid.Refresh()
+        End If
+
 
         ' What's the command?
         Select Case message

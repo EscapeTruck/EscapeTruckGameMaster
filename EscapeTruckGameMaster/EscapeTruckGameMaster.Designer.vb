@@ -32,9 +32,12 @@ Partial Class EscapeTruckGameMaster
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.DeviceGrid = New System.Windows.Forms.DataGridView()
         Me._udpListener = New System.ComponentModel.BackgroundWorker()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
+        CType(Me.DeviceGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cmboPuzzleCount
@@ -140,6 +143,7 @@ Partial Class EscapeTruckGameMaster
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.DeviceGrid)
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
         Me.TabPage2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabPage2.Name = "TabPage2"
@@ -148,6 +152,15 @@ Partial Class EscapeTruckGameMaster
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Truck Settings"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'DeviceGrid
+        '
+        Me.DeviceGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DeviceGrid.Location = New System.Drawing.Point(6, 5)
+        Me.DeviceGrid.Name = "DeviceGrid"
+        Me.DeviceGrid.RowTemplate.Height = 24
+        Me.DeviceGrid.Size = New System.Drawing.Size(296, 297)
+        Me.DeviceGrid.TabIndex = 0
         '
         '_udpListener
         '
@@ -165,6 +178,8 @@ Partial Class EscapeTruckGameMaster
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        CType(Me.DeviceGrid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -180,4 +195,5 @@ Partial Class EscapeTruckGameMaster
     Friend WithEvents cmboDifficulty As ComboBox
     Friend WithEvents Button1 As Button
     Friend WithEvents _udpListener As System.ComponentModel.BackgroundWorker
+    Friend WithEvents DeviceGrid As DataGridView
 End Class
