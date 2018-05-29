@@ -6,7 +6,7 @@ Imports System.Net
 
 Public Class EscapeTruckGameMaster
     Private _Game As Game
-    Private _Devices As New Dictionary(Of String, String)
+    Private _Devices As New List(Of Device)
     Private _UDPPort As Integer = 9653
     Private _RemoteEndpoint As New _
               System.Net.IPEndPoint(System.Net.IPAddress.Any, 0)
@@ -51,30 +51,23 @@ Public Class EscapeTruckGameMaster
         Console.WriteLine(e.UserState.ToString)
 
         Dim arr As Array = e.UserState.ToString.Split("|")
-        Dim device As String = arr(0)
+        Dim deviceName As String = arr(0)
         Dim message As String = arr(1)
         Dim ip As String = arr(2)
 
-        ' If IP Address is used by another device, remove it
-        If _Devices.ContainsValue(ip) Then
-            RemoveByValue(_Devices, ip)
+        Dim device As Device = (From d As Device In _Devices Where d.Name = deviceName Select d).FirstOrDefault()
+
+        If IsNothing(device) Then
+            device = New Device
+            device.Name = deviceName
+            _Devices.Add(device)
         End If
-
-        ' Add Device and IP to list
-        If Not _Devices.ContainsKey(ip) Then
-            _Devices(device) = ip
-            DeviceGrid.DataSource = _Devices
-
-            DeviceGrid.AutoGenerateColumns = True '<---pay attention here
-
-            DeviceGrid.DataSource = (From kvp As KeyValuePair(Of String, String) In _Devices Select kvp.Key, kvp.Value).ToList
+        device.CheckIn(ip)
 
 
-            'DeviceGrid.Refresh()
-        ElseIf _Devices(device) <> ip Then
-            _Devices(device) = ip
-            DeviceGrid.Refresh()
-        End If
+        DeviceGrid.DataSource = _Devices
+        DeviceGrid.Refresh()
+
 
 
         ' What's the command?
@@ -113,4 +106,19 @@ Public Class EscapeTruckGameMaster
         Dim pRet As Integer = udpClient.Send(bytCommand, bytCommand.Length)
         Console.WriteLine("No of bytes send " & pRet)
     End Sub
+
+    Private Sub DeviceGrid_CellContentClick(sender As System.Object, e As DataGridViewCellEventArgs) _
+                                           Handles DeviceGrid.CellContentClick
+        Dim senderGrid = DirectCast(sender, DataGridView)
+
+        If TypeOf senderGrid.Columns(e.ColumnIndex) Is DataGridViewButtonColumn AndAlso
+           e.RowIndex >= 0 Then
+            Dim deviceName As String = DeviceGrid.Rows(e.RowIndex).Cells("DeviceGridName").Value
+            Dim device As Device = (From d As Device In _Devices Where d.Name = deviceName Select d).FirstOrDefault()
+            device.TransmitUDP(Me, "RESET")
+        End If
+
+    End Sub
+
+
 End Class

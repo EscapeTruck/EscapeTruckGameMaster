@@ -79,6 +79,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Device.vb" />
     <Compile Include="Game.vb">
       <SubType>Form</SubType>
     </Compile>

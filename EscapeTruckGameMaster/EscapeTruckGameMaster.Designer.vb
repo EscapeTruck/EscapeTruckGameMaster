@@ -22,6 +22,7 @@ Partial Class EscapeTruckGameMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.cmboPuzzleCount = New System.Windows.Forms.ComboBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -33,11 +34,18 @@ Partial Class EscapeTruckGameMaster
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.DeviceGrid = New System.Windows.Forms.DataGridView()
+        Me.DeviceContextMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me._udpListener = New System.ComponentModel.BackgroundWorker()
+        Me.DeviceGridName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DeviceGridIP = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DeviceGridLastSeen = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DeviceGridResetBtn = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         CType(Me.DeviceGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.DeviceContextMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'cmboPuzzleCount
@@ -156,15 +164,55 @@ Partial Class EscapeTruckGameMaster
         'DeviceGrid
         '
         Me.DeviceGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DeviceGrid.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DeviceGridName, Me.DeviceGridIP, Me.DeviceGridLastSeen, Me.DeviceGridResetBtn})
         Me.DeviceGrid.Location = New System.Drawing.Point(6, 5)
         Me.DeviceGrid.Name = "DeviceGrid"
         Me.DeviceGrid.RowTemplate.Height = 24
-        Me.DeviceGrid.Size = New System.Drawing.Size(296, 297)
+        Me.DeviceGrid.Size = New System.Drawing.Size(591, 297)
         Me.DeviceGrid.TabIndex = 0
+        '
+        'DeviceContextMenu
+        '
+        Me.DeviceContextMenu.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.DeviceContextMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResetToolStripMenuItem})
+        Me.DeviceContextMenu.Name = "DeviceContextMenu"
+        Me.DeviceContextMenu.Size = New System.Drawing.Size(115, 28)
+        '
+        'ResetToolStripMenuItem
+        '
+        Me.ResetToolStripMenuItem.Name = "ResetToolStripMenuItem"
+        Me.ResetToolStripMenuItem.Size = New System.Drawing.Size(114, 24)
+        Me.ResetToolStripMenuItem.Text = "Reset"
         '
         '_udpListener
         '
         Me._udpListener.WorkerReportsProgress = True
+        '
+        'DeviceGridName
+        '
+        Me.DeviceGridName.DataPropertyName = "Name"
+        Me.DeviceGridName.HeaderText = "Name"
+        Me.DeviceGridName.Name = "DeviceGridName"
+        Me.DeviceGridName.ReadOnly = True
+        '
+        'DeviceGridIP
+        '
+        Me.DeviceGridIP.DataPropertyName = "IP"
+        Me.DeviceGridIP.HeaderText = "IP Address"
+        Me.DeviceGridIP.Name = "DeviceGridIP"
+        '
+        'DeviceGridLastSeen
+        '
+        Me.DeviceGridLastSeen.DataPropertyName = "LastSeen"
+        Me.DeviceGridLastSeen.HeaderText = "Last Seen"
+        Me.DeviceGridLastSeen.Name = "DeviceGridLastSeen"
+        Me.DeviceGridLastSeen.ReadOnly = True
+        '
+        'DeviceGridResetBtn
+        '
+        Me.DeviceGridResetBtn.HeaderText = "Reset"
+        Me.DeviceGridResetBtn.Name = "DeviceGridResetBtn"
+        Me.DeviceGridResetBtn.Text = "Reset"
         '
         'EscapeTruckGameMaster
         '
@@ -180,6 +228,7 @@ Partial Class EscapeTruckGameMaster
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         CType(Me.DeviceGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.DeviceContextMenu.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -196,4 +245,10 @@ Partial Class EscapeTruckGameMaster
     Friend WithEvents Button1 As Button
     Friend WithEvents _udpListener As System.ComponentModel.BackgroundWorker
     Friend WithEvents DeviceGrid As DataGridView
+    Friend WithEvents DeviceContextMenu As ContextMenuStrip
+    Friend WithEvents ResetToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DeviceGridName As DataGridViewTextBoxColumn
+    Friend WithEvents DeviceGridIP As DataGridViewTextBoxColumn
+    Friend WithEvents DeviceGridLastSeen As DataGridViewTextBoxColumn
+    Friend WithEvents DeviceGridResetBtn As DataGridViewButtonColumn
 End Class
