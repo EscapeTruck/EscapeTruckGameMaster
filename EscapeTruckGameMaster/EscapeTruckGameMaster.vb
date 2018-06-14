@@ -12,6 +12,7 @@ Public Class EscapeTruckGameMaster
               System.Net.IPEndPoint(System.Net.IPAddress.Any, 0)
     Private _ReceivingUdpClient As UdpClient
     Private _ReceivedData As String
+    Private _Puzzles As New List(Of Puzzle)
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim puzzleCount As Integer
@@ -53,7 +54,7 @@ Public Class EscapeTruckGameMaster
         Dim arr As Array = e.UserState.ToString.Split("|")
         Dim deviceName As String = arr(0)
         Dim message As String = arr(1)
-        Dim ip As String = arr(2)
+        Dim params As String = arr(2)
 
         Dim device As Device = (From d As Device In _Devices Where d.Name = deviceName Select d).FirstOrDefault()
 
@@ -62,20 +63,24 @@ Public Class EscapeTruckGameMaster
             device.Name = deviceName
             _Devices.Add(device)
         End If
-        device.CheckIn(ip)
+        device.CheckIn()
 
 
         DeviceGrid.DataSource = _Devices
         DeviceGrid.Refresh()
 
-
-
         ' What's the command?
         Select Case message
-            Case "CONNECTING"
+            Case "CONNECT"
+                Dim ip As String = params
+                device.CheckIn(ip)
                 transmitToDevice(ip, "CONNECTED")
-            Case Else
-                _Game.TestGuess(message)
+            Case "GUESS"
+                If Not IsNothing(_Game) Then
+                    Dim guess As String
+                    guess = params
+                    _Game.TestGuess(guess)
+                End If
         End Select
     End Sub
 
@@ -117,6 +122,13 @@ Public Class EscapeTruckGameMaster
             Dim device As Device = (From d As Device In _Devices Where d.Name = deviceName Select d).FirstOrDefault()
             device.TransmitUDP(Me, "RESET")
         End If
+
+    End Sub
+
+
+    Private Sub GatherPuzzles()
+        ' http://localhost:8080/prod/
+        _Puzzles.Clear()
 
     End Sub
 

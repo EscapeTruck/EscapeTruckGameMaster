@@ -1,7 +1,9 @@
 ﻿Public Class Puzzle
-    Dim ID As Integer
-    Dim name As String
-    Public path As String
+    Private _ID As Integer
+    Private _Name As String
+    Private _URL As String
+    Private _DeviceName As String
+    Private _SupportedClues As List(Of String)
 
     Enum PuzzleStatus
         Loading
@@ -13,11 +15,18 @@
 
     Dim status As PuzzleStatus
 
-    Public Sub New(inName As String, inPath As String, inID As Integer)
-        name = inName
-        path = inPath
-        ID = inID
-        status = PuzzleStatus.Loading
+    Public Sub New(url As String)
+        _URL = url
 
+        status = PuzzleStatus.Loading
     End Sub
+
+    Public Property URL As String
+        Get
+            Return _URL
+        End Get
+        Set(value As String)
+            _URL = value
+        End Set
+    End Property
 End Class

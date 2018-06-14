@@ -37,37 +37,7 @@ Public Class Game
         tmrGame.Start()
 
         ' add the puzzles
-        Dim provider As String
-        Dim dataFile As String
-        Dim connString As String
-        Dim myConnection As OleDbConnection = New OleDbConnection
-        Dim dr As OleDbDataReader
-        provider = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source ="
-        dataFile = "EscapeTruck.accdb" ' Change it to your Access Database location
-        connString = provider & dataFile
-        myConnection.ConnectionString = connString
-        myConnection.Open()
-        Dim str As String
-        str = "SELECT * FROM AvailablePuzzles ORDER BY  Rnd(-Timer() * [ID])"
-        Dim cmd As OleDbCommand = New OleDbCommand(str, myConnection)
-        dr = cmd.ExecuteReader
-        While dr.Read() And puzzles.Count < 3
-            puzzles.Add(New Puzzle(dr("PuzzleName"), rootPuzzlePath & dr("Path"), dr("ID")))
-        End While
-        myConnection.Close()
 
-        ' Serial
-        mySerialPort.BaudRate = 9600
-        mySerialPort.Parity = Parity.None
-        mySerialPort.StopBits = StopBits.One
-        mySerialPort.DataBits = 8
-        mySerialPort.Handshake = Handshake.None
-        mySerialPort.RtsEnable = True
-        AddHandler mySerialPort.DataReceived, AddressOf DataReceivedHandler
-        'mySerialPort.Open()
-
-        ' show the puzzle
-        'Me.browser = puzzles.Item(0).browser
         StartNextPuzzle()
 
 
@@ -136,8 +106,8 @@ Public Class Game
         tmrGame.Stop()
 
         Dim pz As Puzzle = puzzles.Item(curPuzzle)
-        Me.browser.Browser.LoadURL(pz.path)
-        lblPath.Text = pz.path
+        Me.browser.Browser.LoadURL(pz.URL)
+        lblPath.Text = pz.URL
         curPuzzle = curPuzzle + 1
 
         Dim finishedLoading As Boolean = False

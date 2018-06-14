@@ -41,8 +41,10 @@
         Return _Name
     End Function
 
-    Public Sub CheckIn(IP As String)
-        _IP = IP
+    Public Sub CheckIn(Optional IP As String = "")
+        If IP.Length > 0 Then
+            _IP = IP
+        End If
         _LastSeen = Now()
     End Sub
 
